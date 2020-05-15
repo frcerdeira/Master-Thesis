@@ -13,7 +13,6 @@
 using namespace std;
 
 /**** Parameter Initialization ****/
-/**** Parameter Initialization ****/
 // //// Here we create global Variables. The values are assigned in the function "readFile()" //// //
 int seed = 0;
 int samples = 0, Iterations = 0, binSize = 0; // Statistics
