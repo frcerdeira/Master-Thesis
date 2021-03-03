@@ -1,0 +1,93 @@
+\documentclass[../../main.tex]{subfiles}
+\begin{document}
+%
+    Polymers in solution will randomly change their shape and position due to thermal agitation. In this chapter, we study the statistical properties of a single polymer chain in equilibrium; we introduce the Gaussian chain, modelled as a collection of monomers connected by springs, whose motion is taken as a stochastic process, described by a Langevin equation.
+    
+    The Gaussian chain might not describe correctly the local structure of the polymer but it has the advantage of being much easier to handle from an analytical point of view. Throughout this chapter, we develop an analytical framework, which we use to validate our computational model; from the displacement of a polymer chain, to its viscoelastic properties, we develop the basis of our model.
+
+
+%
+\section{Brownian Motion: Langevin Equation}\label{Section: Brownian Motion}
+    We start by considering the random motion of a large colloidal particle suspended in a fluid. This motion, which results from the collisions with the surrounding molecules of the fluid, can be described as a stochastic process by means of a Langevin equation
+        \begin{equation}\label{eq: Brownian Motion - Langevin Equation}
+            m\frac{d^2\mathbf{R}}{dt^2} = \mathbf{f} \,,
+        \end{equation}
+    where on the left hand side of the equation we have $m$ as the mass of the particle, $R$ as the position of the particle and $t$ time; on the right hand side we have $\mathbf{f}$, the net force applied on the colloid. It can be split into two contributions: a dissipative one, composed of a deterministic force in the form of a viscous force, $\mathbf{f}_d$, proportional and opposite to the particle velocity
+        \begin{equation}\label{eq: Brownian Motion - Drag Force}
+            \mathbf{f}_d = -\zeta \frac{d\mathbf{R}}{dt} \,,
+        \end{equation}
+    where $\zeta$ is the drag coefficient of the particle in the fluid; and a rapidly fluctuating part, that is described as a random force, $\bm{\xi}$, where for the sake of simplicity and idealisation, we assume a Gaussian process with zero average and its contribution uncorrelated with the particle's motion over long time intervals
+    \begin{equation}\label{eq: Brownian Motion - Random Force}
+        \langle \bm{\xi}(t) \rangle = 0 \,; \quad \langle \xi_{\alpha_1}(t_1) \xi_{\alpha_2}(t_2) \rangle = g\delta_{{\alpha_1}{\alpha_2}}\delta(t_1 - t_2) \,,
+    \end{equation}
+    where $\alpha$ denotes the components of the vector, $g$ is some real constant, $\delta(t_1 - t_2)$ is the Dirac delta function and $\delta_{{\alpha_1}{\alpha_2}}$ is the Kronecker delta function. In our work, this stochastic force is the result of the output of a random number generator based on the Mersenne Twister method and defined in the computer program \cite{matsumotoMersenneTwister623dimensionally1998}. The reasons for this choice are laid out in \cref{app: RNG}. In order to avoid large numbers that will cause integration problems, a choice is made to truncate the output. The truncation of the Gaussian distribution leads to a shift in the variance that needs to be accounted for. The way this is done is shown in \cref{app: Dist Trunc}. 
+
+    At equilibrium, these two forces relate to each other. In fact, if we multiply both sides of \cref{eq: Brownian Motion - Langevin Equation} by $\mathbf{R}$, and take the average, we will obtain
+        \begin{equation}
+            m\frac{d}{dt} \Big\langle \mathbf{R} \cdot \frac{d\mathbf{R}}{dt} \Big\rangle - m\langle v^2 \rangle = -\zeta \Big\langle \mathbf{R}\cdot\frac{d\mathbf{R}}{dt} \Big\rangle \,,
+        \end{equation}
+    with $v$ being the velocity of the particle. From the equipartition theorem, we know that $\langle v^2 \rangle = \ddfrac{d_s k_B T}{m}$, where $d_s$ is the dimension of the embedded space, $k_B$ is the Boltzmann constant and $T$ the temperature. This is a first-order linear non-homogeneous differential equation that can be solved to get
+        \begin{equation}
+            \Big\langle \mathbf{R}\,\frac{d\mathbf{R}}{dt} \Big\rangle = \frac{1}{2}\frac{d}{dt}\langle R^2 \rangle = \frac{d_s\,k_B T}{\zeta} \bigg[ 1-\exp \Big(-\frac{t}{\tau_B}\Big) \bigg] \,,
+        \end{equation}
+    where $\tau_B = m/\zeta$ is the inertial relaxation time. Integrating a second time yields
+        \begin{equation}
+            \langle R^2 \rangle = \frac{2d_s\, k_B T}{\zeta} \Bigg\{ t - \tau_B \bigg[ 1 - \exp \bigg(-\frac{t}{\tau_B} \bigg) \bigg]\Bigg\} \,,
+        \end{equation}
+    and in the limit where the inertial effects can be neglected ($t \gg \tau_B$), we have the motion of the diffusive particle with
+        \begin{equation}\label{eq: Brownian Motion - t>>tau}
+            \langle R^2 \rangle = \frac{2d_s\, k_B T}{\zeta}\, t \,.
+        \end{equation}
+            
+    Alternatively, if we neglect the inertial effects, we can write \cref{eq: Brownian Motion - Langevin Equation} as
+        \begin{equation}\label{eq: Brownian Motion - Overdamped Langevin eq}
+            \zeta\, \frac{d\mathbf{R}}{dt} = \bm{\xi} \,,
+        \end{equation}
+    making it much easier to find $\langle R^2 \rangle$. Integrating \cref{eq: Brownian Motion - Overdamped Langevin eq} yields
+        \begin{equation}
+            \mathbf{R}(t) = \frac{1}{\zeta}\int_{0}^{t} \bm{\xi}(t)dt \,,
+        \end{equation}
+    meaning that
+        \begin{equation}\label{eq: Browninan Motion - Position Correlation}
+            \langle R^2 \rangle = \frac{d_s}{\zeta^2} \int_{0}^{t}\int_{0}^{t} \left\langle \xi(t_1)\xi(t_2) \right\rangle dt_1 dt_2  \,.
+        \end{equation}
+    Taking \cref{eq: Brownian Motion - Random Force}, we finally get
+        \begin{equation}
+            \langle R^2 \rangle = \frac{d_s}{\zeta^2}\int_{0}^{t} g\,dt_1 = \frac{d_s g}{\zeta^2}t \,.
+        \end{equation}
+    
+    Now, we can make use of this result and the one derived through the equipartition theorem, to obtain the fluctuation-dissipation theorem
+        \begin{equation}\label{eq: g}
+            \frac{2d_s\, k_B T}{\zeta}\, t = \frac{d_s g}{\zeta^2}t \Leftrightarrow g=2\zeta k_B T \,,
+        \end{equation}
+    which relates the variance of the force fluctuations with the temperature of the suspending fluid and the drag coefficient of the particle in it.
+    
+%%%%%%%%   
+\begin{comment}
+    \subsection{Brownian Motion in an Harmonic Potential}\label{subSection: Harmonic Potential - 1D}
+        We now look at the one-dimensional case for the Brownian motion of a particle trapped in an harmonic potential given by
+            \begin{equation}\label{eq: Harmonic Potential - 1D - Harmonic Potential}
+                U_0(x) = \frac{1}{2}\kappa x^2 \,.
+            \end{equation}
+        This is a simple system with a known analytical solution for the position correlation function and so it can be used to validate our code. It also serves as an introductory model to which we will be able to draw some parallels as more complex models are introduced.
+        
+        In the overdamped regime, the Langevin equation becomes
+            \begin{equation}\label{eq: Brownian Motion - Overdamped Langevin eq for the Harmonic Potential}
+                \zeta\, \frac{dx}{dt} = -\kappa x + \xi \,.
+            \end{equation}
+        If we consider $r(0)=0$ to be the equilibrium position, using an integrating factor we can write $x$ as a function of $\xi$
+            \begin{equation}\label{eq: Harmonic Potential - 1D - Solution to Langevin Eq}
+                x(t) = \frac{1}{\zeta}\bigintsss_0^t \xi(t') \exp\left(\frac{-(t-t')}{\tau}\right)dt' \,,
+            \end{equation}
+        where $\tau = \zeta/\kappa$. From here it follows that, the position correlation function is given by
+            \begin{equation}
+                \langle x^2 \rangle = \frac{1}{\zeta^2}\bigintsss_0^t \bigintsss_0^t \left\langle \bm{\xi}(t') \cdot \bm{\xi}(t'') \right\rangle \exp\left(-\frac{t-t'}{\tau}\right) \exp\left(-\frac{t-t''}{\tau}\right) dt'dt''
+            \end{equation}
+        that, by remembering \cref{eq: Harmonic Potential - 1D - Variance of Fluctuation Function}, can be simplified to
+            \begin{equation}\label{eq:  Harmonic Potential - 1D - Position Correlation}
+                \langle x^2 \rangle = \frac{g}{\zeta} \bigintsss_0^t \xi(t') \exp\left(\frac{-2(t-t')}{\tau}\right)dt' = \frac{g}{2\kappa\zeta}\left[1-\exp\left(-\frac{2t}{\tau}\right)\right] 
+            \end{equation}
+\end{comment}
+%%%%%%%%
+        
+\end{document}    

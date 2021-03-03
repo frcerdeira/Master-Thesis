@@ -1,0 +1,27 @@
+\documentclass[../../main.tex]{subfiles}
+\begin{document}
+%
+    With this work, we started a study on the dynamics of cross-linked polymer networks. In spite of the complexity of polymer molecules, some general properties can be described by simple models. 
+    
+    We begin by introducing the concepts behind the Gaussian chain, showing its equivalence to a mechanical representation of monomers connected by springs. We verify that for a two monomer chain, the numerical results for the mean square displacement, $\langle r^2 \rangle$, and the intrinsic viscosity due to the placement of the polymer chain in the medium, $\eta^{(p)}$, are in agreement with the theoretical predictions. It was also shown that the relation between $\eta^{(p)}$ and chain size $N$ obtained from our numerical model is inline with what is reported in the literature. These were crucial steps that needed to be taken in order to validate our approach.
+    
+    The cross-linker properties were then studied as pair interactions between particles confined to a box. From the initial L-J potential used, another one was devised that could more closely match the desired features. After its validation, we studied bond formation under different conditions, showing how it can be influenced by temperature, $T$ and density, $\rho$, and noting optimum values for which we get a maximum in number of bonds formed.
+    
+    From here, we begun the construction of our polymer network model, first studying cross-linker placement, from where we noted stark differences between the two versions tested. A middle placement of the cross-linker was used as a bridge to the free particle model, validating the initial assumption of their equivalence. After, we tested placing two cross-linker monomers at the extremities of the chain, where preliminary results show the creation of a much more stable polymer network.
+    
+    The addition of steric repulsion between different chains was then implemented as we aimed for a more real representation of a polymer in solution. With it, we noted an anomalous behaviour of the different polymer chains, in which they would overlap the cross-link capable monomers, driving the repelling core away. This pushes us away from a reticulated polymer network spanning all space, into small clusters of chains, disconnected from each other. 
+    
+    Future work should then focus on tackling this problem. We first note the repulsion potential used. It served as an initial approach to the problem whose main advantage was its simple and fast numerical implementation. It is then entirely possible that most suitable ways to model these interactions exist.
+    
+    Steric interactions are not limited to repulsion between different chains but arise from the overlapping of same chain monomers. It is then imperative to add a resistance to bending, making the overlapping of the end monomers more costly. In order to avoid numerical errors, there might also be a need to change the equilibrium position of the spring. By having the monomers very closely packed, a small change in position might lead to a large change in angle and resulting restoring force.
+    
+    A study of the polymer network under shear conditions is also lacking. From the difficulty to implement Lees-Edwards boundary conditions, and the refinement of the model, not enough time was left to tackle this case. 
+    
+    If, in the future, this is implemented, we have made it easy to actively change the potential parameters to fit the new conditions. It is possible to change the activation energy for bond formation in respect to the external forces applied. A final thought can be spared to the possibility of a three dimensional model. If this ought to be implemented, it would make sense to add torsional resistance to the chain.
+    
+    This work was an initial, and therefore, a rather simplistic approach to the system under study. Nevertheless, it gives a good insight on the fundamentals of a cross-linked polymer network, providing a solid base from which we can build upon.
+    
+    %It becomes clear that the model is not yet complete. The next step would be to add stiffness to the chain in the form of a bending resistance. 
+    
+    
+\end{document}

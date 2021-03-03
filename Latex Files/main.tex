@@ -1,0 +1,311 @@
+\documentclass[11pt,a4paper,twoside,openright]{book}
+
+%%%% Usar vários subfiles %%%%
+\usepackage{subfiles}
+
+%%%% Usada para comentar um bloco de texto %%%%
+\usepackage{comment}
+
+\usepackage[portuguese,english]{babel}
+\usepackage[utf8]{inputenc}
+
+%%%% Fonte mais próxima de Times New Roman %%%%
+\usepackage{mathptmx}
+
+%%%% Alterar margens do documento %%%%
+\usepackage[margin=2.5cm]{geometry}
+\renewcommand{\baselinestretch}{1.15}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\thechapter. #1 }}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{}
+\fancyhead[RO]{\bfseries\rightmark}
+\fancyhead[LE]{\bfseries\leftmark}
+\setlength{\headheight}{15pt}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\addtolength{\headheight}{0.5pt}
+\fancypagestyle{plain}{
+  \fancyhead{}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+
+%%%% Package que permite incluir imagens %%%%
+\usepackage{graphicx}
+\graphicspath{{Figures/}{../Figures/}} % path para a pasta onde estão as imagens
+\usepackage[nottoc,numbib]{tocbibind}
+%\usepackage{subfig} % support for the manipulation and reference of small or ‘sub’ figures and tables within a single figure or table environment
+\usepackage{float} % Now we can put an [H] in \begin{figure} to specify the exact location of the figure
+
+%%%% Para fazer referências %%%%
+\usepackage[backend = biber, style = nature, sorting = none, citestyle = numeric-comp]{biblatex} % basic style, author-year citations
+%\addbibresource{tese.bib} %Imports bibliography file
+\addbibresource{Revisao_Bibliografica.bib} %Imports bibliography file
+\usepackage{csquotes} % ensure that quoted texts are typeset according to the rules of main language
+\usepackage{hyperref} % produce hypertext links in the document
+
+%%%% Criar uma pag com as constantes usadas %%%%
+\usepackage[intoc]{nomencl}
+\makenomenclature
+\renewcommand{\nompreamble}{\markboth{NOMENCLATURE}{Nomenclature}}
+
+\usepackage{etoolbox}
+\renewcommand\nomgroup[1]{%
+  \item[\bfseries
+  \ifstrequal{#1}{L}{Notation}{%
+  \ifstrequal{#1}{A}{Abbreviations}{}}]}%
+
+
+%%%% Indentar primeiro parágrafo %%%%
+\usepackage{indentfirst}
+
+%%%% Permite remover os espaços entre itens %%%%
+\usepackage{enumitem}
+
+%%%% Caption para imagens %%%%
+\usepackage[font=footnotesize]{caption}
+
+%%%% Referenciar anexos %%%%
+\usepackage[toc,page]{appendix}
+
+%%%% Adicionar pdfs %%%%
+\usepackage{pdfpages}
+
+%%%% Alterar nome de capitulo para a referencia %%%%
+\usepackage{fmtcount}
+
+%%%% Used to write code %%%%
+\usepackage{minted}
+\usemintedstyle{emacs}
+
+\usepackage{url}
+
+%%%% Math stuff %%%%
+\usepackage{mathtools}
+\newcommand\ddfrac[2]{\frac{\displaystyle #1}{\displaystyle #2}} % forces TeX to render the material in display-style math mode for the numerator and denominator
+\newcommand\mean[1]{\mathop{\overline{#1}}} % gives me a bar over the letter with a \mean command
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert} % gives the norm of a vector
+\usepackage{mathrsfs} % fancy math letters
+\usepackage{bigints} % big integral signs
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bm} % bold
+%\usepackage{systeme} % makes systems of equations or inequalities
+\DeclareMathOperator{\erf}{erf} % error function operator
+% unit vector shit
+\newcommand{\uveci}{{\bm{\hat{\textnormal{\bfseries\i}}}}}
+\newcommand{\uvecj}{{\bm{\hat{\textnormal{\bfseries\j}}}}}
+\DeclareRobustCommand{\uvec}[1]{{ % unit vector
+  \ifcat\relax\noexpand#1%
+    % it should be a Greek letter
+    \bm{\hat{#1}}%
+  \else
+    \ifcsname uvec#1\endcsname
+      \csname uvec#1\endcsname
+    \else
+      \bm{\hat{\mathbf{#1}}}%
+     \fi
+   \fi
+}}
+
+\usepackage{xcolor}
+\usepackage{gensymb} % Provides generic commands (e.g. \degree, \celsius, \perthousand, \micro and \ohm)
+
+\usepackage{filecontents}
+\usepackage{float}
+
+\raggedbottom
+
+\usepackage{subcaption}
+\usepackage{eurosym}
+
+\usepackage{booktabs}
+
+\usepackage{cleveref} % format of cross-references to be determined automatically according to the “type” of cross-reference (equation, section, etc.)
+\crefname{appsec}{appendix}{Appendices} % \cref uses appendix when referring, guess what?, the appendices 
+
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+    \hbox{}
+    \thispagestyle{plain}
+    \newpage
+    \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother \clearpage{\pagestyle{plain}\cleardoublepage}
+
+\begin{document}
+%\onehalfspacing
+\begin{sloppy}
+%-----------------------------------------------------------------
+%
+% Capa (FRENTE)
+%
+%------------------------------------------------------------------
+\begin{titlepage}
+\topmargin = -55pt
+\centering
+\Large UNIVERSIDADE DE LISBOA\\
+\Large FACULDADE DE CIÊNCIAS\\
+\Large DEPARTAMENTO DE FÍSICA\\
+\vfill
+\begin{figure}[ht!]
+\centering
+\includegraphics[scale=0.5]{ciencias_ulisboa_marca_horizontal_rgb_preto.png}
+\end{figure}
+%
+\vfill
+\textbf{\LARGE Dynamics of Active Polymer Networks}
+\vfill
+\Large Francisco Cerdeira
+\vfill
+\textbf{\Large Mestrado Integrado em Engenharia Biomédica e Biofísica}\\
+Perfil Biofísica Médica e Fisiologia de Sistemas\\
+\vspace{0.8cm}
+%\Large Versão Provisória\\
+\vspace{0.8cm}
+\Large Dissertação orientada por:\\
+\Large Prof. Doutor Nuno Araújo\\
+\Large Prof. Doutor Pedro Patrício\\
+\vfill
+\Large \the\year\\
+\end{titlepage}
+
+
+%-----------------------------------------------------------------
+%
+% Capa (TRÁS)
+%
+%------------------------------------------------------------------
+\clearpage \thispagestyle{empty}\mbox{}\clearpage
+\pagenumbering{roman}
+%\newpage
+%\thispagestyle{plain}
+%\mbox{}
+
+
+%-----------------------------------------------------------------
+%
+% AGRADECIMENTOS
+%
+%------------------------------------------------------------------
+\newpage
+\thispagestyle{plain}
+\chapter*{Acknowledgements}
+    \subfile{Chapters/Other_Stuff/Acknowledgements}
+
+%-----------------------------------------------------------------
+%
+% ABSTRACT
+%
+%------------------------------------------------------------------
+\newpage
+\thispagestyle{plain}
+\chapter*{Abstract}
+    \subfile{Chapters/Other_Stuff/Abstract}
+
+
+%-----------------------------------------------------------------
+%
+% RESUMO
+%
+%------------------------------------------------------------------
+\newpage
+\thispagestyle{plain}
+\chapter*{Resumo}
+    \subfile{Chapters/Other_Stuff/Resumo}
+%
+%-----------------------------------------------------------------
+%
+% ÍNDICE
+%
+%------------------------------------------------------------------
+%
+% TABLE OF CONTENTS
+\newpage
+\thispagestyle{plain}
+\renewcommand{\contentsname}{Contents}
+\tableofcontents
+% LIST OF FIGURES
+\newpage
+\thispagestyle{plain}
+\listoffigures
+% LIST OF TABLES
+\newpage
+\thispagestyle{plain}
+\listoftables
+% NOMENCLATURE
+\newpage
+\thispagestyle{plain}
+\subfile{Chapters/Other_Stuff/nomecl}
+%\clearpage 
+\thispagestyle{plain}\mbox{}\clearpage
+%
+\pagenumbering{arabic} %numeros em numeração árabe
+%
+%-----------------------------------------------------------------
+%
+% INTRODUÇÃO
+%
+%------------------------------------------------------------------
+%
+\newpage
+\thispagestyle{plain}
+%
+\chapter{Introduction}\label{ch:intro}
+    \subfile{Chapters/Other_Stuff/Intro}
+%
+%-----------------------------------------------------------------
+%
+% BROWNIAN DYNAMICS
+%
+%------------------------------------------------------------------    
+%
+\chapter{Collective Dynamics of Particles in Solution}\label{ch: polDynamics}
+    \subfile{Chapters/Theory/Brownian_Motion}
+    \subfile{Chapters/Theory/Gaussian_Chain}
+\chapter{Particle-Particle Aggregation}\label{ch: Particle-Particle Aggregation}
+    \subfile{Chapters/Theory/LJ_2}
+%
+%-----------------------------------------------------------------
+%
+% CROSSLINKED POLYMER NETWORKS
+%
+%-----------------------------------------------------------------
+%
+\chapter{Crosslinked Polymer Networks}\label{ch: CrosslinkNet}
+    \subfile{Chapters/Results/Crosslinked_Network}
+%
+%-----------------------------------------------------------------
+%
+% CONCLUSIONS
+%
+%-----------------------------------------------------------------
+%
+\chapter{Conclusions \label{ch:conclusion}}
+    \subfile{Chapters/Other_Stuff/Conclusions}
+    
+%
+%-----------------------------------------------------------------
+%
+% REFS
+% 
+%-----------------------------------------------------------------
+%
+%\bibliographystyle{apacite}      % basic style, author-year citations
+%\bibliography{tese.bib}
+\printbibliography[heading=bibintoc]
+
+%    
+%-----------------------------------------------------------------
+%
+% APPENDIX
+%
+%------------------------------------------------------------------      
+%
+\subfile{Chapters/Other_Stuff/Appendix}
+
+\end{sloppy}
+\end{document}
